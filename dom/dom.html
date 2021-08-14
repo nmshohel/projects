@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome to my website</h1>
+    </header>
+    <main>
+        <section>
+            <article>
+                <h3>my Awesome blog- 1</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est quas eveniet nihil nostrum vero mollitia corrupti nesciunt rerum voluptate dolorum delectus non, quasi expedita maiores saepe magni dicta, voluptates ab!</p>
+            </article>
+            <article>
+                <h3>my Awesome blog- 2</h3>
+                <p>Delectus corrupti ducimus dolore non quod eius sit dolorem harum mollitia dolor nisi voluptatum ad maiores illum esse sapiente nam vero aliquam vitae, incidunt assumenda! Vel et ratione repellat voluptatibus!</p>
+            </article>
+            <article>
+                <h3>my Awesome blog- 3</h3>
+                <p>Perspiciatis eum tempora velit magnam iusto quis debitis libero sint optio accusamus fuga quia natus molestias, quae sapiente nisi consectetur ex consequuntur ratione impedit quaerat repellendus esse. Nesciunt, iste rem?</p>
+            </article>
+        </section>
+
+    </main>
+    <script>
+        const tagList=document.getElementsByTagName('h3');
+        // console.log(tagList);
+        for(const h3 of tagList)
+        {
+            console.log(h3.innerText)
+        }
+    </script>
+    
+</body>
+</html>
