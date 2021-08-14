@@ -5,6 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        /* #blog-title{
+            background-color: orchid;
+
+        } */
+        /* .blog{
+            border: 2px solid rebeccapurple;
+            margin: 2px;
+            padding: 5px;
+            border-radius: 10px;
+        } */
+    </style>
 </head>
 <body>
     <header>
@@ -12,15 +24,15 @@
     </header>
     <main>
         <section>
-            <article>
-                <h3>my Awesome blog- 1</h3>
+            <article class="blog">
+                <h3 id="blog-title">my Awesome blog- 1</h3>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Est quas eveniet nihil nostrum vero mollitia corrupti nesciunt rerum voluptate dolorum delectus non, quasi expedita maiores saepe magni dicta, voluptates ab!</p>
             </article>
-            <article>
+            <article class="blog">
                 <h3>my Awesome blog- 2</h3>
                 <p>Delectus corrupti ducimus dolore non quod eius sit dolorem harum mollitia dolor nisi voluptatum ad maiores illum esse sapiente nam vero aliquam vitae, incidunt assumenda! Vel et ratione repellat voluptatibus!</p>
             </article>
-            <article>
+            <article class="blog">
                 <h3>my Awesome blog- 3</h3>
                 <p>Perspiciatis eum tempora velit magnam iusto quis debitis libero sint optio accusamus fuga quia natus molestias, quae sapiente nisi consectetur ex consequuntur ratione impedit quaerat repellendus esse. Nesciunt, iste rem?</p>
             </article>
@@ -28,11 +40,32 @@
 
     </main>
     <script>
+        // getElementById
         const tagList=document.getElementsByTagName('h3');
         // console.log(tagList);
-        for(const h3 of tagList)
+        // for(const h3 of tagList)
+        // {
+        //     console.log(h3.innerText)
+        // }
+        const blogList=document.getElementsByTagName('p');
+        for(const p of blogList)
         {
-            console.log(h3.innerText)
+            // console.log(p.innerText);
+        }
+        const blogTitle=document.getElementById('blog-title');
+        blogTitle.style.color='red';
+        blogTitle.style.textAlign='center';
+        blogTitle.innerText="Thsi content change by JS";
+        blogTitle.style.backgroundColor="gray"
+
+
+
+        // get element by class name
+        blogs=document.getElementsByClassName('blog');
+        console.log(blogs);
+        for(const blog of blogs){
+            blog.style.border="2px solid red";
+            blog.style.borderRadius="10px";
         }
     </script>
     
