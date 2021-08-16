@@ -16,6 +16,7 @@ urlpatterns = [
     path('home-page', views.home_page, name='home-page'),
     path('', views.user_login, name='user-login'),
     path('user-logout', views.user_logout, name='user-logout'),
+    path('meter-info', views.meter_info, name='meter-info'),
     
 
     

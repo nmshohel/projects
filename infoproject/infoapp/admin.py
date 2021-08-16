@@ -12,4 +12,5 @@ class MeterDataReadadmin(ImportExportModelAdmin):
     list_display = ('id', 'date_time_date', 'hex','kwh', 'kwh2', 'kvarh','kvarh2', 'kvah', 'hex','current1', 'current2', 'current3')
 
 
-# admin.site.register(MeterDataRead, MeterDataReadadmin)
+admin.site.register(MeterDataReadFinal)
+admin.site.register(PbsInfo)

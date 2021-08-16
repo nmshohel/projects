@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 import random
 
 
+
 from .resources import PersonResource
 from tablib import Dataset
 # Create your views here.
@@ -66,15 +67,7 @@ def simple_upload(request):
         person_resource = PersonResource()
         dataset = Dataset()
         new_persons = request.FILES['myfile']
-        # month = request.POST['month']
-        # year = request.POST['year']
-        # substation = request.POST['substation']
-        # feeder = request.POST['feeder']
-        # print(month)
-        # print(year)
-        # print(substation)
-        # print(feeder)
-        # MeterDataRead.objects.create(month=month, year=year,substation=substation,feeder=feeder)
+
         imported_data = dataset.load(new_persons.read(), format='xlsx')
         # print(imported_data)
         for data in imported_data:
@@ -98,10 +91,36 @@ def simple_upload(request):
             value.save()
             msg2="Data Successfully Uploded"
 
-    
-    
+        return redirect('/meter-info')
+        
+
     context={'msg2':msg2}
     return render(request, 'upload.html',context)
+
+def meter_info(request):
+    meter_no=request.POST.get('m_no')
+    month=request.POST.get('month')
+    year=request.POST.get('year')
+    # print(month)
+    # print(year)
+    # print(meter_no)
+    # user=request.user
+    # print(user)
+    # PbsInfo.objects.get()
+    current_user = request.user
+    user_id = current_user.id
+    user_pbs_info = PbsInfo.objects.get(user__pk=user_id)
+    print(user_pbs_info.pbs_code)
+    pbs_code=user_pbs_info.pbs_code
+    MeterDataRead.objects.all().update(meter_no=meter_no,month=month, year=year,pbs_code=pbs_code)
+    data=MeterDataRead.objects.filter(meter_no=100111)
+    for data in data:
+        MeterDataReadFinal.objects.create(date_time_date=data.date_time_date,hex=data.hex,kwh=data.kwh,
+        kwh2=data.kwh2,kvarh=data.kvarh,kvarh2=data.kvarh2,kvah=data.kvah,avah2=data.avah2,voltage1=data.voltage1,
+        voltage2=data.voltage2,voltage3=data.voltage3,current1=data.current1,current2=data.current2,current3=data.current3,
+        meter_no=data.meter_no, month=data.month, year=data.year,pbs_code=data.pbs_code)
+    
+    return render(request, 'meter-info.html')
 
 def data_delete(request):
     data = MeterDataRead.objects.all()
