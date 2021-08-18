@@ -41,9 +41,15 @@ def view_result(request):
     return render(request, 'result.html')
 
 def meter_data_calculation(request):
+    month=request.POST.get('month')
+    year=request.POST.get('year')
+    current_user = request.user
+    user_id = current_user.id
+    user_pbs_info = PbsInfo.objects.get(user__pk=user_id)
+    pbs_code=user_pbs_info.pbs_code
     count = 0
     duration = 0
-    data = MeterDataRead.objects.all()
+    data = MeterDataReadFinal.objects.all()
     datalist = []
     for item in data:
         datalist.append(item.current3)
@@ -91,41 +97,65 @@ def simple_upload(request):
             value.save()
             msg2="Data Successfully Uploded"
 
+
         return redirect('/meter-info')
+        # return render(request, 'meter-info.html')
         
 
     context={'msg2':msg2}
     return render(request, 'upload.html',context)
 
+# def meter_info(request):
+#     month=request.POST.get('month')
+#     year=request.POST.get('year')
+#     current_user = request.user
+#     user_id = current_user.id
+#     user_pbs_info = PbsInfo.objects.get(user__pk=user_id)
+#     print(user_pbs_info.pbs_code)
+#     pbs_code=user_pbs_info.pbs_code
+#     MeterDataRead.objects.all().update(month=month, year=year,pbs_code=pbs_code)
+#     data=MeterDataRead.objects.filter(month=month, year=year, pbs_code=pbs_code)
+#     for data in data:
+#         MeterDataReadFinal.objects.create(date_time_date=data.date_time_date,hex=data.hex,kwh=data.kwh,
+#         kwh2=data.kwh2,kvarh=data.kvarh,kvarh2=data.kvarh2,kvah=data.kvah,avah2=data.avah2,voltage1=data.voltage1,
+#         voltage2=data.voltage2,voltage3=data.voltage3,current1=data.current1,current2=data.current2,current3=data.current3,
+#          month=data.month, year=data.year,pbs_code=data.pbs_code)
+  
+#     return render(request, 'meter-info.html')
 def meter_info(request):
-    meter_no=request.POST.get('m_no')
-    month=request.POST.get('month')
-    year=request.POST.get('year')
-    # print(month)
-    # print(year)
-    # print(meter_no)
-    # user=request.user
-    # print(user)
-    # PbsInfo.objects.get()
-    current_user = request.user
-    user_id = current_user.id
-    user_pbs_info = PbsInfo.objects.get(user__pk=user_id)
-    print(user_pbs_info.pbs_code)
-    pbs_code=user_pbs_info.pbs_code
-    MeterDataRead.objects.all().update(meter_no=meter_no,month=month, year=year,pbs_code=pbs_code)
-    data=MeterDataRead.objects.filter(meter_no=100111)
-    for data in data:
-        MeterDataReadFinal.objects.create(date_time_date=data.date_time_date,hex=data.hex,kwh=data.kwh,
-        kwh2=data.kwh2,kvarh=data.kvarh,kvarh2=data.kvarh2,kvah=data.kvah,avah2=data.avah2,voltage1=data.voltage1,
-        voltage2=data.voltage2,voltage3=data.voltage3,current1=data.current1,current2=data.current2,current3=data.current3,
-        meter_no=data.meter_no, month=data.month, year=data.year,pbs_code=data.pbs_code)
-    
-    return render(request, 'meter-info.html')
+    if request.method == 'POST':
+        current_user = request.user
+        user_id = current_user.id
+        user_pbs_info = PbsInfo.objects.get(user__pk=user_id)
+        print(user_pbs_info.pbs_code)
+        pbs_code=user_pbs_info.pbs_code
+        month = request.POST.get('month')
+        year = request.POST.get('year')
+        feeder_no = request.POST.get('feeder_no')
+        sub_station_name = request.POST.get('sub_station_name')
+        MeterDataRead.objects.all().update(month=month, year=year,pbs_code=pbs_code,feeder_no=feeder_no,sub_station_name=sub_station_name)
+        data=MeterDataRead.objects.filter(month=month, year=year, pbs_code=pbs_code,feeder_no=feeder_no,sub_station_name=sub_station_name)
+        for data in data:
+            MeterDataReadFinal.objects.create(date_time_date=data.date_time_date,hex=data.hex,kwh=data.kwh,
+            kwh2=data.kwh2,kvarh=data.kvarh,kvarh2=data.kvarh2,kvah=data.kvah,avah2=data.avah2,voltage1=data.voltage1,
+            voltage2=data.voltage2,voltage3=data.voltage3,current1=data.current1,current2=data.current2,current3=data.current3,
+            month=data.month, year=data.year,pbs_code=data.pbs_code,sub_station_name=data.sub_station_name,feeder_no=feeder_no)
+
+        data_form = MeterDataReadForm()
+        message = "Information Successfully Added!"
+        context = {'data_form': data_form, 'message': message}
+        return render(request, 'meter-info.html', context)
+    else:
+        data_form = MeterDataReadForm()
+        context = {'data_form': data_form}
+        return render(request, 'meter-info.html', context)
 
 def data_delete(request):
-    data = MeterDataRead.objects.all()
-    data.delete()
+    delete_data = MeterDataRead.objects.all()
+    delete_data.delete()
+    # MeterDataReadFinal.objects.all().delete()
     msg="Data Successfully Deleted"
     context={'msg':msg}
     return render(request, 'data-delete.html',context)
+    # return HttpResponse("Uploded")
 
