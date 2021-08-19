@@ -27,7 +27,7 @@ def user_login(request):
     return render(request, 'user_login.html')
 def user_logout(request):
     logout(request)
-    return redirect('/')
+    return redirect('user-login')
 
 def home_page(request):
     return render(request, 'home_page.html')
@@ -49,7 +49,10 @@ def meter_data_calculation(request):
     pbs_code=user_pbs_info.pbs_code
     count = 0
     duration = 0
-    data = MeterDataReadFinal.objects.all()
+    print(month)
+    print(year)
+    print(pbs_code)
+    data = MeterDataReadFinal.objects.filter(pbs_code=pbs_code,month=month,year=year)
     datalist = []
     for item in data:
         datalist.append(item.current3)
@@ -64,7 +67,7 @@ def meter_data_calculation(request):
             f = True
     context={'count':count,'duration':duration}
 
-    return render(request, 'result.html',context)
+    return render(request, 'monthly-result.html',context)
 
 
 def simple_upload(request):
@@ -127,12 +130,23 @@ def meter_info(request):
         current_user = request.user
         user_id = current_user.id
         user_pbs_info = PbsInfo.objects.get(user__pk=user_id)
-        print(user_pbs_info.pbs_code)
         pbs_code=user_pbs_info.pbs_code
-        month = request.POST.get('month')
-        year = request.POST.get('year')
-        feeder_no = request.POST.get('feeder_no')
-        sub_station_name = request.POST.get('sub_station_name')
+        month_id = request.POST['month']
+        year_id = request.POST['year']
+        month = Month.objects.get(id=month_id)
+        year = Year.objects.get(id=year_id)
+        
+        # month = request.POST.get('month')
+        # year = request.POST.get('year')
+        feeder_no_id = request.POST.get('feeder_no')
+        sub_station_name_id = request.POST.get('sub_station_name')
+        print("substation id",sub_station_name_id)
+        feeder_no = Feeder.objects.get(id=feeder_no_id)
+        sub_station_name = Substation.objects.filter(pbs_code=pbs_code)
+        sub_station_name=str(sub_station_name)
+        feeder_no=str(feeder_no)
+        month=str(month)
+        year=str(year)
         MeterDataRead.objects.all().update(month=month, year=year,pbs_code=pbs_code,feeder_no=feeder_no,sub_station_name=sub_station_name)
         data=MeterDataRead.objects.filter(month=month, year=year, pbs_code=pbs_code,feeder_no=feeder_no,sub_station_name=sub_station_name)
         for data in data:
@@ -144,7 +158,8 @@ def meter_info(request):
         data_form = MeterDataReadForm()
         message = "Information Successfully Added!"
         context = {'data_form': data_form, 'message': message}
-        return render(request, 'meter-info.html', context)
+        # return render(request, 'meter-info.html', context)
+        return redirect('/data-delete')
     else:
         data_form = MeterDataReadForm()
         context = {'data_form': data_form}
@@ -156,6 +171,8 @@ def data_delete(request):
     # MeterDataReadFinal.objects.all().delete()
     msg="Data Successfully Deleted"
     context={'msg':msg}
-    return render(request, 'data-delete.html',context)
+    # return render(request, 'data-delete.html',context)
+    # return render(request, 'upload.html',context)
+    return redirect('/')
     # return HttpResponse("Uploded")
 
