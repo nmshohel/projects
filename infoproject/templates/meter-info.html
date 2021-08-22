@@ -8,10 +8,8 @@
 
 
           <!-- <form method="post">
-
             {% csrf_token %}
             
-
             <p>Meter No: <input type="text" name="m_no"></p>
             <p>Month: <input type="text" name="month"></p>
             <p>Year: <input type="text" name="year"></p>
@@ -19,6 +17,17 @@
           </form> -->
           <form method="POST">
             {% csrf_token %}
+            <label for="s">Substation:</label>
+
+            <select class="form form-control bg-light col-md-6" id="s" name="s_info" required>
+              <option value="">---------</option>
+              {% for s_s in s_s %}
+              
+              <option value="{{s_s.id}}">{{s_s}}</option>
+              {%endfor %}
+
+            </select>
+            <br>
             {{data_form}}
             <!-- <div class="form-group">
               <label for="exampleInputEmail1">Month:</label>
@@ -43,5 +52,3 @@
 </div>
 
 {% endblock %}
-
-

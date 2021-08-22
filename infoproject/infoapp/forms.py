@@ -11,18 +11,18 @@ class PersonData(forms.Form):
         fields = '__all__'
 
 class MeterDataReadForm(forms.ModelForm):
-    month = forms.ModelChoiceField(label='Month',initial='FIXED', widget=forms.Select(
+    month = forms.ModelChoiceField(label='Month', widget=forms.Select(
         attrs={'class': 'form form-control bg-light col-md-6', }), queryset=Month.objects.all())
-    year = forms.ModelChoiceField(label='Year',initial='FIXED', widget=forms.Select(
+    year = forms.ModelChoiceField(label='Year', widget=forms.Select(
         attrs={'class': 'form form-control bg-light col-md-6', }), queryset=Year.objects.all())
-    sub_station_name = forms.ModelChoiceField(label='Substation',initial='FIXED', widget=forms.Select(
-        attrs={'class': 'form form-control bg-light col-md-6', }), queryset=Substation.objects.all())
-    feeder_no = forms.ModelChoiceField(label='Feeder',initial='FIXED', widget=forms.Select(
+    # sub_station_name = forms.ModelChoiceField(label='Substation',initial='FIXED', widget=forms.Select(
+    #     attrs={'class': 'form form-control bg-light col-md-6', }), queryset=Substation.objects.all())
+    feeder_no = forms.ModelChoiceField(label='Feeder', widget=forms.Select(
         attrs={'class': 'form form-control bg-light col-md-6', }), queryset=Feeder.objects.all())
 
     class Meta:
         model = MeterDataRead
-        fields = ['sub_station_name', 'month', 'year', 'feeder_no']
+        fields = [ 'month', 'year', 'feeder_no']
 
         widgets = {
             # 'feeder_no': forms.NumberInput(attrs={'class': 'form form-control bg-light'}),
@@ -30,4 +30,3 @@ class MeterDataReadForm(forms.ModelForm):
             # 'month': forms.NumberInput(attrs={'class': 'form form-control bg-light'}),
             # 'year': forms.NumberInput(attrs={'class': 'form form-control bg-light'}),
         }
-  

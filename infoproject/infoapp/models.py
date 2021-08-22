@@ -85,7 +85,7 @@ class Substation(models.Model):
     pbs_code=models.CharField(max_length=100,blank=True, null=True)
 
     def __str__(self):
-        return str(self.name),self.id,self.pbs_code
+        return str(self.name)
 class Feeder(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=20, blank=True, null=True)

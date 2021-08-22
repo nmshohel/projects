@@ -25,21 +25,26 @@ def user_login(request):
             login(request, user)
             return redirect('/home-page')
     return render(request, 'user_login.html')
+
+@login_required(login_url='/user-login')
 def user_logout(request):
     logout(request)
-    return redirect('user-login')
+    return redirect('/user-login')
 
+@login_required(login_url='/user-login')
 def home_page(request):
     return render(request, 'home_page.html')
 
+@login_required(login_url='/user-login')
 def delete_page(request):
     return render(request, 'data-delete.html')
 
     
-
+@login_required(login_url='/user-login')
 def view_result(request):
     return render(request, 'result.html')
 
+@login_required(login_url='/user-login')
 def meter_data_calculation(request):
     month=request.POST.get('month')
     year=request.POST.get('year')
@@ -69,7 +74,7 @@ def meter_data_calculation(request):
 
     return render(request, 'monthly-result.html',context)
 
-
+@login_required(login_url='/user-login')
 def simple_upload(request):
     msg2=""
     if request.method == 'POST':
@@ -125,8 +130,18 @@ def simple_upload(request):
 #          month=data.month, year=data.year,pbs_code=data.pbs_code)
   
 #     return render(request, 'meter-info.html')
+@login_required(login_url='/user-login')
 def meter_info(request):
     if request.method == 'POST':
+
+
+        s_info_id=request.POST.get('s_info')
+     
+        sub_station_info=Substation.objects.get(id=s_info_id)
+        print(sub_station_info.name)
+
+        sub_station_name=sub_station_info.name
+
         current_user = request.user
         user_id = current_user.id
         user_pbs_info = PbsInfo.objects.get(user__pk=user_id)
@@ -139,11 +154,11 @@ def meter_info(request):
         # month = request.POST.get('month')
         # year = request.POST.get('year')
         feeder_no_id = request.POST.get('feeder_no')
-        sub_station_name_id = request.POST.get('sub_station_name')
-        print("substation id",sub_station_name_id)
+        # sub_station_name_id = request.POST.get('sub_station_name')
+        # print("substation id",sub_station_name_id)
         feeder_no = Feeder.objects.get(id=feeder_no_id)
-        sub_station_name = Substation.objects.filter(pbs_code=pbs_code)
-        sub_station_name=str(sub_station_name)
+        # sub_station_name = Substation.objects.filter(pbs_code=pbs_code)
+        # sub_station_name=str(sub_station_name)
         feeder_no=str(feeder_no)
         month=str(month)
         year=str(year)
@@ -161,10 +176,16 @@ def meter_info(request):
         # return render(request, 'meter-info.html', context)
         return redirect('/data-delete')
     else:
+        current_user = request.user
+        user_id = current_user.id
+        user_pbs_info = PbsInfo.objects.get(user__pk=user_id)
+        pbs_code=user_pbs_info.pbs_code
+        s_s=Substation.objects.filter(pbs_code=pbs_code)
+        
         data_form = MeterDataReadForm()
-        context = {'data_form': data_form}
+        context = {'data_form': data_form,'s_s':s_s}
         return render(request, 'meter-info.html', context)
-
+@login_required(login_url='/user-login')
 def data_delete(request):
     delete_data = MeterDataRead.objects.all()
     delete_data.delete()
@@ -176,3 +197,14 @@ def data_delete(request):
     return redirect('/')
     # return HttpResponse("Uploded")
 
+def upload_history(request):
+    history_data = MeterDataReadFinal.objects.filter(month='01',year='2021',pbs_code='62')
+    context={'history_data':history_data}
+    list =[] # create empty list
+    for val in context: 
+        if val.sub_station_name in list: 
+            continue 
+        else:
+            list.append(val.sub_station_name)
+    print(list)
+    return render(request,'upload-history.html',context)

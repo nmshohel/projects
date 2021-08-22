@@ -17,7 +17,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 <div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
   <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
   <span class="w3-bar-item w3-right">
-    Sunamganj Palli Bidyut Samity
+    <h4>{{ user.first_name}}    {{user.last_name}}</h4>
   </span>
   
 </div>
@@ -27,10 +27,12 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
   <div class="w3-container">
     <h5>SAIDI-SAIFI</h5>
   </div>
+  
   <div class="w3-bar-block">
     <i class="fas fa-trash-alt"></i>
     <a href="{% url 'infoapp:home-page' %}" class="w3-bar-item w3-button w3-padding w3-blue"><i class="fa fa-users fa-fw"></i>Home</a>
     <a href="{% url 'infoapp:data-import' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i> Data Upload</a>
+    <a href="{% url 'infoapp:upload-history' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i> Upload History</a>
     <a href="{% url 'infoapp:view-result' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>Result</a>
     <a href="{% url 'infoapp:delete-page' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bank fa-fw"></i>  Data Delete</a>
     <a href="{% url 'infoapp:user-logout' %}" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Logout</a>
