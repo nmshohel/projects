@@ -12,6 +12,8 @@ class MeterDataReadadmin(ImportExportModelAdmin):
      list_display = ('id', 'date_time_date','kvah','current1', 'current2', 'current3','sub_station_name','feeder_no','month','year','pbs_code')
 class MeterDataReadFinaladmin(ImportExportModelAdmin):
      list_display = ('id', 'date_time_date','kvah', 'current1', 'current2', 'current3','sub_station_name','feeder_no','month','year','pbs_code')
+class SubstationFeederadmin(ImportExportModelAdmin):
+     list_display = ('id', 'substation_name','feeder_no','no_of_consummer','pbs_code')
 
 
 admin.site.register(MeterDataReadFinal, MeterDataReadFinaladmin)
@@ -21,3 +23,4 @@ admin.site.register(Year)
 admin.site.register(MeterDataRead,MeterDataReadadmin)
 admin.site.register(Substation)
 admin.site.register(Feeder)
+admin.site.register(SubstationFeeder,SubstationFeederadmin)

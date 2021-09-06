@@ -83,8 +83,11 @@ def simple_upload(request):
         new_persons = request.FILES['myfile']
 
         imported_data = dataset.load(new_persons.read(), format='xlsx')
+        # print(type(imported_data))
         # print(imported_data)
+        
         for data in imported_data:
+           
             value = MeterDataRead(
                 data[0],
                 data[1],
@@ -101,7 +104,12 @@ def simple_upload(request):
                 data[12],
                 data[13],
                 data[14],
+                
             )
+            
+            # listx = list(MeterDataRead)
+            # listx.append(62) 
+            # MeterDataRead=listx
             value.save()
             msg2="Data Successfully Uploded"
 
@@ -197,14 +205,19 @@ def data_delete(request):
     return redirect('/')
     # return HttpResponse("Uploded")
 
+# def upload_history(request):
+#     data = SubstationFeeder.objects.filter(pbs_code=62)
+#     data_value=MeterDataReadFinal.objects.filter(pbs_code=62)
+#     context={'data':data,'data_value':data_value}
+#     return render(request,'upload-history.html',context)
+
 def upload_history(request):
-    history_data = MeterDataReadFinal.objects.filter(month='01',year='2021',pbs_code='62')
-    context={'history_data':history_data}
-    list =[] # create empty list
-    for val in context: 
-        if val.sub_station_name in list: 
-            continue 
-        else:
-            list.append(val.sub_station_name)
-    print(list)
+    data = SubstationFeeder.objects.filter(pbs_code=62)
+ 
+    for i in data:
+        data2=MeterDataReadFinal.objects.filter(month='01',year='2021',sub_station_name=i.substation_name,feeder_no=i.feeder_no,pbs_code='62').distinct().count()
+        
+
+    context={'data':data}
+    # print(context['abc'])
     return render(request,'upload-history.html',context)

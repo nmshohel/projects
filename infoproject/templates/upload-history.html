@@ -6,44 +6,29 @@
   <div class="row">
     <div class="col-6 m-auto">
       
-      {% for data in uniqueValues%}
-      
-      {{data.sub_station_name}}
-      {% endfor %}
 
 
 
 
 
-        <!-- <table class="table">
-            <thead>
+
+        <table class="table">
+            
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Substation</th>
                 <th scope="col">Feeder</th>
                 <th scope="col">Data</th>
               </tr>
-            </thead>
-            <tbody>
+          {% for data in data %}
               <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
+                <th scope="row">{{forloop.counter}}</th>
+                <td>{{data.substation_name}}</td>
+                <td>{{data.feeder_no}}</td>
+                <td></td>
               </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-              </tr>
-              <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-              </tr>
-            </tbody>
-          </table> -->
+            {% endfor %}
+          </table>
 
     </div>
   </div>
